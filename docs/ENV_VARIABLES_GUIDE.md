@@ -21,7 +21,7 @@
 DATABASE_URL="file:./dev.db"                    # SQLite for dev, PostgreSQL URL for production
 
 # Authentication
-BETTER_AUTH_SECRET="your-random-secret-here"    # Generate: openssl rand -base64 32
+BETTER_AUTH_SECRET="your-random-secret-here"    # Generate: openssl rand -base64 32 (or use https://keygen.uppfy.com)
 
 # App Configuration  
 PORT=3001                                       # Backend server port
@@ -128,7 +128,7 @@ cd server
 cp env.example .env
 ```
 
-Edit `.env`:
+Edit `.env` (generate a strong secret with `openssl rand -base64 32` or visit `https://keygen.uppfy.com`):
 ```env
 DATABASE_URL="file:./dev.db"
 BETTER_AUTH_SECRET="$(openssl rand -base64 32)"  # Generate random secret

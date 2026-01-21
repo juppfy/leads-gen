@@ -20,7 +20,7 @@ This folder contains the new backend that will replace Firebase Functions with a
 
 ## Environment variables (`server/.env`)
 - `DATABASE_URL` — SQLite for local (file:./dev.db) or Postgres URL in prod.
-- `BETTER_AUTH_SECRET` — required; use a long random string.
+- `BETTER_AUTH_SECRET` — required; use a long random string (e.g. `openssl rand -base64 32` or generate one at https://keygen.uppfy.com).
 - `PORT` — API port (default 3001).
 - `FRONTEND_ORIGIN` — allow CORS from the frontend (e.g., http://localhost:5173).
 - `N8N_WEBHOOK_*` — URLs for platform-specific webhooks.
