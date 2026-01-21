@@ -90,20 +90,35 @@ SQLite will work, but note:
 
 ---
 
-## 4) Get your Railway backend URL (for n8n + frontend)
+## 4) Generate Railway Public Domain
 
-Once deployed, Railway will give you a public URL like:
+**Important:** You need to generate a public domain before deploying the frontend to Vercel.
 
-- `https://<your-service>.up.railway.app`
+1. After your backend redeploys successfully (Step 2), go to your Railway service
+2. Click on **Settings** tab
+3. Scroll down to **Public Networking** section
+4. Click **Generate Domain** (or **Settings** → **Networking** → **Generate Domain**)
+5. Railway will create a public URL like: `https://<your-service>.up.railway.app`
+6. **Copy this domain** - you'll need it for:
+   - Vercel frontend deployment (`VITE_API_URL`)
+   - n8n environment variables
 
-You will use this as a **base URL** for:
-
-- **n8n env var**: paste **only** the base URL (no `/api/...`)
-- **frontend env var**: `VITE_API_URL` should be the base URL
+**Note:** You can also use a custom domain later, but the generated Railway domain works perfectly for now.
 
 ---
 
-## 5) Local testing with ngrok (n8n → your local backend)
+## 5) Use Railway URL for Frontend & n8n
+
+Your Railway backend URL (from Step 4) will be used as a **base URL** for:
+
+- **Vercel frontend**: Set `VITE_API_URL` = `https://<your-service>.up.railway.app`
+- **n8n env var**: Paste **only** the base URL (no `/api/...`)
+
+**Important:** Always use the **base URL only** - don't include `/api/...` paths. The frontend and n8n will append the correct endpoints.
+
+---
+
+## 6) Local testing with ngrok (n8n → your local backend)
 
 If you are testing the repo locally but your n8n is remote/cloud:
 
@@ -126,7 +141,7 @@ ngrok http 3001
 
 ---
 
-## 6) Deploy the frontend (`project/`)
+## 7) Deploy the frontend (`project/`)
 
 **Recommended: Deploy to Vercel** (see `docs/VERCEL_DEPLOYMENT_GUIDE.md`)
 
@@ -142,7 +157,7 @@ This tells your frontend where to find the backend API.
 
 ---
 
-## 7) Production checklist
+## 8) Production checklist
 
 - Confirm CORS origin is correct (`FRONTEND_ORIGIN`)
 - Confirm auth cookies work on your domain (HTTPS)

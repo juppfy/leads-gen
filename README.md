@@ -81,13 +81,23 @@ See: `docs/RAILWAY_DEPLOYMENT_GUIDE.md`
 
 This repo includes a `railway.json` that targets the backend in `server/`.
 
-**Note:** The initial Railway deployment will crash (expected) due to missing environment variables. Add all required variables in Railway, then it will redeploy successfully.
+**Deployment steps:**
+1. Deploy backend to Railway (will crash initially - expected)
+2. Add environment variables in Railway → Variables
+3. Backend redeploys successfully
+4. **Generate public domain**: Railway → Settings → Public Networking → Generate Domain
+5. Copy the Railway URL (needed for frontend deployment)
 
 ### Frontend (Vercel)
 
 See: `docs/VERCEL_DEPLOYMENT_GUIDE.md`
 
-The frontend (`project/`) includes a `vercel.json` for easy Vercel deployment. Set Root Directory to `project` when importing to Vercel.
+The frontend (`project/`) includes a `vercel.json` for easy Vercel deployment.
+
+**Deployment steps:**
+1. Set Root Directory to `project` when importing to Vercel
+2. Add `VITE_API_URL` environment variable = your Railway backend URL (from step above)
+3. Deploy!
 
 ---
 

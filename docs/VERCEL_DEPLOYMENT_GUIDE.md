@@ -8,9 +8,16 @@ This guide shows how to deploy the **frontend** (`project/`) to Vercel. The back
 
 ## ✅ Prerequisites
 
-- A Vercel account (free tier works)
-- Your backend deployed on Railway (get the URL)
-- A GitHub repo with this project pushed
+**Important:** Complete these steps **before** deploying to Vercel:
+
+1. ✅ Backend deployed on Railway (see `docs/RAILWAY_DEPLOYMENT_GUIDE.md`)
+2. ✅ Railway environment variables added and backend redeployed successfully
+3. ✅ Railway public domain generated (Settings → Public Networking → Generate Domain)
+4. ✅ Railway backend URL copied (e.g., `https://your-app.up.railway.app`)
+5. ✅ A Vercel account (free tier works)
+6. ✅ A GitHub repo with this project pushed
+
+**You need the Railway backend URL before deploying to Vercel!**
 
 ---
 
@@ -47,11 +54,19 @@ Vercel should auto-detect these from `project/vercel.json`, but verify:
 
 ## 3) Set Environment Variables
 
+**Before this step:** Make sure you've generated your Railway public domain (see Prerequisites above).
+
 In Vercel project → **Settings** → **Environment Variables**, add:
 
 | Variable | Value | Example |
 |----------|-------|---------|
 | `VITE_API_URL` | Your Railway backend URL | `https://your-app.up.railway.app` |
+
+**How to get your Railway URL:**
+1. Go to Railway → Your backend service
+2. Click **Settings** → **Networking** (or **Public Networking**)
+3. Copy the generated domain (e.g., `https://your-app.up.railway.app`)
+4. Paste it as the value for `VITE_API_URL` in Vercel
 
 **Important:**
 - Use the **base URL only** (no trailing slash, no `/api/...`)
@@ -100,11 +115,12 @@ After deploying to Vercel, update your Railway backend environment variables:
    ```
    https://your-project.vercel.app
    ```
-   Or if you have multiple origins:
+   Or if you have multiple origins (local dev + production):
    ```
    http://localhost:8080,https://your-project.vercel.app
    ```
 3. Railway will redeploy automatically
+4. Your frontend should now be able to communicate with the backend ✅
 
 ---
 
