@@ -14,11 +14,14 @@ function signSessionToken(userId: string) {
   return jwt.sign({ sub: userId }, env.BETTER_AUTH_SECRET, { expiresIn: expiresInSeconds });
 }
 
-function setSessionCookie(res: any, token: string) {
+function setSessionCookie(res: any, token: string, req: any) {
+  // Detect if we're in production (HTTPS) or behind a proxy (Railway, etc.)
+  const isSecure = req.secure || req.headers["x-forwarded-proto"] === "https" || process.env.NODE_ENV === "production";
+  
   res.cookie(SESSION_COOKIE_NAME, token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false, // set true behind HTTPS in production
+    sameSite: isSecure ? "none" : "lax", // "none" required for cross-origin HTTPS, "lax" for same-site
+    secure: isSecure, // true for HTTPS (production), false for local dev
     maxAge: SESSION_DAYS * 24 * 60 * 60 * 1000,
     path: "/",
   });
@@ -83,7 +86,7 @@ router.post("/signup", async (req, res) => {
     });
 
     const token = signSessionToken(user.id);
-    setSessionCookie(res, token);
+    setSessionCookie(res, token, req);
 
     return res.json({
       user: {
@@ -123,7 +126,7 @@ router.post("/login", async (req, res) => {
   if (!ok) return res.status(401).json({ error: "Invalid email or password" });
 
   const token = signSessionToken(user.id);
-  setSessionCookie(res, token);
+  setSessionCookie(res, token, req);
 
   return res.json({
     user: {

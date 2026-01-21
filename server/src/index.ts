@@ -12,6 +12,9 @@ import authRouter from "./routes/auth.js";
 
 const app = express();
 
+// Trust proxy (needed for Railway/Heroku/etc. to detect HTTPS correctly)
+app.set("trust proxy", 1);
+
 // Middleware
 app.use(helmet());
 app.use(express.json({ limit: "1mb" }));
