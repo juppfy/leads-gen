@@ -1,0 +1,26 @@
+# Root ignores (monorepo)
+
+# Dependencies
+**/node_modules/
+
+# Builds
+**/dist/
+**/dist-ssr/
+
+# Local env files
+**/.env
+**/.env.*
+
+# Prisma / SQLite
+server/prisma/dev.db
+
+# Logs
+**/logs/
+**/*.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+**/.idea/
+**/.vscode/
+

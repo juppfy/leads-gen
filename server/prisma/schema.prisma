@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // change to "postgresql" for production
+  url      = env("DATABASE_URL")
+}
+
+// Note: SQLite doesn't support native enums, so we use String with @default
+// When migrating to PostgreSQL, you can convert these to proper enums
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  name          String?
+  image         String?
+  plan          String    @default("FREE") // FREE, INDIEHACKER, BUSINESS, ENTERPRISE
+  searchCount   Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  searches Search[]
+  sessions Session[]
+  accounts Account[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  password          String? // hashed password for email/password auth
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Search {
+  id           String   @id @default(cuid())
+  userId       String
+  productUrl   String
+  status       String   @default("PENDING") // PENDING, ANALYZING, SEARCHING, COMPLETED, FAILED
+  keywords     String?  // JSON array (stringified)
+  websiteInfo  String?  // JSON object (stringified)
+  resultsCount Int      @default(0)
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platforms     Platform[]
+  conversations Conversation[]
+
+  @@index([userId, createdAt])
+}
+
+model Platform {
+  id           String   @id @default(cuid())
+  searchId     String
+  name         String   // REDDIT, LINKEDIN, TWITTER
+  selected     Boolean  @default(false)
+  status       String   @default("pending")
+  resultsCount Int      @default(0)
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  search Search @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@unique([searchId, name])
+}
+
+model Conversation {
+  id               String   @id @default(cuid())
+  searchId         String
+  platform         String   // REDDIT, LINKEDIN, TWITTER
+  title            String
+  url              String
+  excerpt          String   // Full text in SQLite (no @db.Text needed)
+  author           String?
+  subreddit        String?
+  authorProfileUrl String?
+  keyword          String?
+  assessment       String?
+  upvotes          Int      @default(0)
+  comments         Int      @default(0)
+  relevanceScore   Float?
+  postedAt         DateTime
+  foundAt          DateTime @default(now())
+  createdAt        DateTime @default(now())
+
+  search Search @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@index([searchId, relevanceScore])
+  @@index([searchId, foundAt])
+}
