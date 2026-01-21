@@ -96,8 +96,11 @@ The frontend (`project/`) includes a `vercel.json` for easy Vercel deployment.
 
 **Deployment steps:**
 1. Set Root Directory to `project` when importing to Vercel
-2. Add `VITE_API_URL` environment variable = your Railway backend URL (from step above)
-3. Deploy!
+2. Add `VITE_API_URL` environment variable = your Railway backend URL
+3. Deploy frontend to Vercel
+4. **Copy Vercel URL** (e.g., `https://your-project.vercel.app`)
+5. **Update Railway**: Go back to Railway → Variables → Update `FRONTEND_ORIGIN` with your Vercel URL
+6. Railway redeploys automatically → Frontend can now communicate with backend ✅
 
 ---
 

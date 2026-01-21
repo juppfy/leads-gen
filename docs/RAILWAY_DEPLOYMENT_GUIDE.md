@@ -60,10 +60,12 @@ In Railway, open your backend service → **Variables** and add:
   - SQLite (simple): `file:./prisma/dev.db`
   - Postgres (recommended for production): see `docs/PRISMA_POSTGRES_GUIDE.md`
 - **`BETTER_AUTH_SECRET`**: a long random secret
-- **`FRONTEND_ORIGIN`**: your frontend URL (or `http://localhost:8080` for local testing)
+- **`FRONTEND_ORIGIN`**: For now, use `http://localhost:8080` (you'll update this after deploying frontend to Vercel)
 - **`N8N_WEBHOOK_SECRET`**: shared secret for n8n → backend webhook auth
 - **`N8N_WEBHOOK_REDDIT`**: your n8n webhook URL that receives search requests (backend → n8n)
 - **`PORT`**: Railway sets this automatically; you can omit it unless you want to force it
+
+**Note:** After deploying the frontend to Vercel (Step 7), you'll need to come back and update `FRONTEND_ORIGIN` with your Vercel URL, then Railway will redeploy automatically.
 
 ---
 

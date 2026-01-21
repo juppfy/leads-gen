@@ -80,10 +80,30 @@ In Vercel project → **Settings** → **Environment Variables**, add:
 1. Click **Deploy** (or push to your main branch - Vercel auto-deploys)
 2. Wait for build to complete (~2-3 minutes)
 3. Vercel will give you a URL like: `https://your-project.vercel.app`
+4. **Copy this Vercel URL** - you'll need it for the next step!
 
 ---
 
-## 5) Test Your Deployment
+## 5) Update Railway Backend CORS (Required!)
+
+**Important:** After deploying to Vercel, you must update Railway's `FRONTEND_ORIGIN` variable so CORS works properly.
+
+1. Go to Railway → Your backend service → **Variables**
+2. Find `FRONTEND_ORIGIN` and update it to include your Vercel URL:
+   ```
+   https://your-project.vercel.app
+   ```
+   Or if you want to support both local dev and production:
+   ```
+   http://localhost:8080,https://your-project.vercel.app
+   ```
+3. Railway will **automatically redeploy** once you save the variable
+4. Wait for Railway redeploy to complete (~1-2 minutes)
+5. Your frontend should now be able to communicate with the backend ✅
+
+---
+
+## 6) Test Your Deployment
 
 1. Visit your Vercel URL
 2. Try signing up/logging in
@@ -97,7 +117,7 @@ In Vercel project → **Settings** → **Environment Variables**, add:
 
 ---
 
-## 6) Custom Domain (Optional)
+## 7) Custom Domain (Optional)
 
 1. In Vercel project → **Settings** → **Domains**
 2. Add your custom domain
@@ -106,25 +126,9 @@ In Vercel project → **Settings** → **Environment Variables**, add:
 
 ---
 
-## 7) Update Railway Backend CORS
-
-After deploying to Vercel, update your Railway backend environment variables:
-
-1. Go to Railway → Your backend service → **Variables**
-2. Update `FRONTEND_ORIGIN` to include your Vercel URL:
-   ```
-   https://your-project.vercel.app
-   ```
-   Or if you have multiple origins (local dev + production):
-   ```
-   http://localhost:8080,https://your-project.vercel.app
-   ```
-3. Railway will redeploy automatically
-4. Your frontend should now be able to communicate with the backend ✅
-
 ---
 
-## 🔄 Continuous Deployment
+## 8) Continuous Deployment
 
 Vercel automatically deploys when you push to your main branch:
 
@@ -141,9 +145,11 @@ Vercel automatically deploys when you push to your main branch:
 - [ ] `VITE_API_URL` environment variable set (Railway backend URL)
 - [ ] Build completes successfully
 - [ ] Frontend loads at Vercel URL
-- [ ] Can sign up/login
+- [ ] **Vercel URL copied**
+- [ ] **`FRONTEND_ORIGIN` in Railway backend updated with Vercel URL**
+- [ ] **Railway redeployed successfully**
+- [ ] Can sign up/login (no CORS errors)
 - [ ] Can create searches
-- [ ] `FRONTEND_ORIGIN` in Railway backend includes Vercel URL
 
 ---
 
