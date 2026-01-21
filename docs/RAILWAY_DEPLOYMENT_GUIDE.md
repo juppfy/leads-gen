@@ -25,7 +25,7 @@ This repo is a monorepo with:
 ### Method: Deploy from GitHub (Recommended)
 
 1. **Create a New Project** in Railway
-2. **Deploy from GitHub Repo** → Select your forked repo
+2. **Deploy from GitHub Repo** → Select your repo
 3. Railway will detect the `railway.json` file at the root, which tells it to:
    - Build from the `server/` directory
    - Use Node.js 20
@@ -33,6 +33,22 @@ This repo is a monorepo with:
    - Start with `npm run start` (start command)
 
 **You don't need to manually set Root Directory** - the `railway.json` handles everything automatically.
+
+### ⚠️ Important: Initial Deployment Will Crash
+
+**This is expected!** Railway starts deploying immediately when you connect your GitHub repo, before you can set environment variables.
+
+**What happens:**
+1. Build completes successfully ✅
+2. Server starts but crashes ❌ (missing env variables)
+3. Deploy logs show error messages about missing variables
+
+**What to do:**
+1. Don't panic - this is normal!
+2. Go to your Railway service → **Variables** tab
+3. Add all required environment variables (see Step 2 below)
+4. Railway will automatically redeploy once you save the variables
+5. The second deployment should succeed ✅
 
 ---
 
@@ -112,21 +128,17 @@ ngrok http 3001
 
 ## 6) Deploy the frontend (`project/`)
 
-You can deploy the frontend anywhere that supports static/Vite builds (Railway, Vercel, Netlify).
+**Recommended: Deploy to Vercel** (see `docs/VERCEL_DEPLOYMENT_GUIDE.md`)
+
+The frontend can also be deployed to Netlify, Cloudflare Pages, or Railway (as a separate service), but Vercel is recommended for the best Vite/React experience.
 
 ### Required frontend env var
 
 Set:
 
-- `VITE_API_URL` = `https://<your-backend-domain>`
+- `VITE_API_URL` = `https://<your-backend-domain>.up.railway.app`
 
-Then build:
-
-```bash
-cd project
-npm install
-npm run build
-```
+This tells your frontend where to find the backend API.
 
 ---
 

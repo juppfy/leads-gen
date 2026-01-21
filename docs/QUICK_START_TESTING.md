@@ -251,11 +251,18 @@ npx kill-port 3001
 # Then restart: npm run dev
 ```
 
-### "Cannot find module"
+### "Cannot find module" or "ERESOLVE" errors
 ```bash
 cd server
 npm install --legacy-peer-deps
 npm run build
+npm run dev
+```
+
+### Frontend installation issues
+```bash
+cd project
+npm install --legacy-peer-deps
 npm run dev
 ```
 

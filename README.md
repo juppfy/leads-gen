@@ -25,7 +25,7 @@ It’s built to be open-source friendly:
 
 ```bash
 cd server
-npm install
+npm install --legacy-peer-deps
 cp env.example .env
 # fill in server/.env
 npx prisma migrate dev
@@ -41,7 +41,7 @@ Backend runs at:
 
 ```bash
 cd project
-npm install
+npm install --legacy-peer-deps
 # create project/.env.local with:
 # VITE_API_URL=http://localhost:3001
 npm run dev
@@ -73,13 +73,21 @@ Key rule:
 
 ---
 
-## Deploy to Railway
+## Deployment
 
-See:
+### Backend (Railway)
 
-- `docs/RAILWAY_DEPLOYMENT_GUIDE.md`
+See: `docs/RAILWAY_DEPLOYMENT_GUIDE.md`
 
 This repo includes a `railway.json` that targets the backend in `server/`.
+
+**Note:** The initial Railway deployment will crash (expected) due to missing environment variables. Add all required variables in Railway, then it will redeploy successfully.
+
+### Frontend (Vercel)
+
+See: `docs/VERCEL_DEPLOYMENT_GUIDE.md`
+
+The frontend (`project/`) includes a `vercel.json` for easy Vercel deployment. Set Root Directory to `project` when importing to Vercel.
 
 ---
 
