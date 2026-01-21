@@ -89,14 +89,29 @@ In Vercel project → **Settings** → **Environment Variables**, add:
 **Important:** After deploying to Vercel, you must update Railway's `FRONTEND_ORIGIN` variable so CORS works properly.
 
 1. Go to Railway → Your backend service → **Variables**
-2. Find `FRONTEND_ORIGIN` and update it to include your Vercel URL:
+2. Find `FRONTEND_ORIGIN` and update it to include your Vercel URL(s):
+   
+   **For production only:**
    ```
    https://your-project.vercel.app
    ```
-   Or if you want to support both local dev and production:
+   
+   **For production + local dev:**
    ```
    http://localhost:8080,https://your-project.vercel.app
    ```
+   
+   **For production + preview deployments (recommended):**
+   ```
+   http://localhost:8080,https://your-project.vercel.app,https://your-project-git-main-username.vercel.app
+   ```
+   
+   **Important:** 
+   - Use comma-separated URLs (no spaces after commas)
+   - Don't include trailing slashes (they're automatically removed)
+   - Vercel preview URLs follow the pattern: `https://<project>-git-<branch>-<username>.vercel.app`
+   - You can find your preview URL in Vercel's deployment logs or browser address bar
+   
 3. Railway will **automatically redeploy** once you save the variable
 4. Wait for Railway redeploy to complete (~1-2 minutes)
 5. Your frontend should now be able to communicate with the backend ✅

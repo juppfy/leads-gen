@@ -61,11 +61,15 @@ In Railway, open your backend service → **Variables** and add:
   - Postgres (recommended for production): see `docs/PRISMA_POSTGRES_GUIDE.md`
 - **`BETTER_AUTH_SECRET`**: a long random secret
 - **`FRONTEND_ORIGIN`**: For now, use `http://localhost:8080` (you'll update this after deploying frontend to Vercel)
+  - **Format**: Single URL or comma-separated URLs (no trailing slashes needed - they're auto-removed)
+  - **Example (single)**: `https://your-project.vercel.app`
+  - **Example (multiple)**: `http://localhost:8080,https://your-project.vercel.app,https://your-project-git-main-username.vercel.app`
+  - **Note**: Vercel creates different URLs for production vs preview deployments. Include both if you want to test preview deployments.
 - **`N8N_WEBHOOK_SECRET`**: shared secret for n8n → backend webhook auth
 - **`N8N_WEBHOOK_REDDIT`**: your n8n webhook URL that receives search requests (backend → n8n)
 - **`PORT`**: Railway sets this automatically; you can omit it unless you want to force it
 
-**Note:** After deploying the frontend to Vercel (Step 7), you'll need to come back and update `FRONTEND_ORIGIN` with your Vercel URL, then Railway will redeploy automatically.
+**Note:** After deploying the frontend to Vercel (Step 7), you'll need to come back and update `FRONTEND_ORIGIN` with your Vercel URL(s), then Railway will redeploy automatically.
 
 ---
 

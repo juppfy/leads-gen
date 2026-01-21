@@ -18,9 +18,23 @@ app.use(express.json({ limit: "1mb" }));
 // Also accept application/x-www-form-urlencoded bodies (used by some n8n HTTP Request nodes)
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(cookieParser());
+
+// CORS configuration - supports comma-separated origins and normalizes trailing slashes
+const getAllowedOrigins = (): (string | RegExp)[] | string | undefined => {
+  if (!env.FRONTEND_ORIGIN) return "*";
+  
+  // Split by comma and normalize (remove trailing slashes)
+  const origins = env.FRONTEND_ORIGIN.split(",")
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
+    .filter((origin) => origin.length > 0);
+  
+  // If only one origin, return as string; otherwise return array
+  return origins.length === 1 ? origins[0] : origins;
+};
+
 app.use(
   cors({
-    origin: env.FRONTEND_ORIGIN || "*",
+    origin: getAllowedOrigins(),
     credentials: true,
   })
 );
