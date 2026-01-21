@@ -1,11 +1,14 @@
-# 🚆 Railway Deployment Guide (Backend + Frontend)
+# 🚆 Railway Deployment Guide
 
-This repo is a monorepo:
+## 🎯 Important: What Railway Deploys
 
-- **Backend**: `server/` (Node.js + Express + Prisma + Better Auth)
-- **Frontend**: `project/` (Vite + React)
+**Railway deploys ONLY the backend (`server/`).**
 
-This guide shows how to deploy the backend to Railway, then configure the frontend to talk to it.
+This repo is a monorepo with:
+- **Backend**: `server/` → Deploy to **Railway** ✅
+- **Frontend**: `project/` → Deploy to **Vercel/Netlify/Cloudflare Pages** (separate deployment)
+
+**You cannot deploy both in one Railway service.** This guide covers deploying the backend to Railway. The frontend should be deployed separately to a static hosting platform.
 
 ---
 
@@ -19,18 +22,17 @@ This guide shows how to deploy the backend to Railway, then configure the fronte
 
 ## 1) Deploy the backend (`server/`) to Railway
 
-### Option A (recommended): Deploy from GitHub, with Root Directory = `server/`
+### Method: Deploy from GitHub (Recommended)
 
-1. Create a **New Project** in Railway
-2. Choose **Deploy from GitHub Repo**
-3. Select your repo
-4. In the service settings, set:
-   - **Root Directory**: `server`
-5. Railway should detect Node and use:
-   - **Build Command**: `npm run build`
-   - **Start Command**: `npm run start`
+1. **Create a New Project** in Railway
+2. **Deploy from GitHub Repo** → Select your forked repo
+3. Railway will detect the `railway.json` file at the root, which tells it to:
+   - Build from the `server/` directory
+   - Use Node.js 20
+   - Run `npm ci --legacy-peer-deps && npm run build` (build command)
+   - Start with `npm run start` (start command)
 
-> If Railway prompts for build/start commands, the backend already has them in `server/package.json`.
+**You don't need to manually set Root Directory** - the `railway.json` handles everything automatically.
 
 ---
 
