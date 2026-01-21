@@ -30,7 +30,7 @@ This repo is a monorepo with:
    - Build from the `server/` directory
    - Use Node.js 20
    - Run `npm ci --legacy-peer-deps && npm run build` (build command)
-   - Start with `npm run start` (start command)
+   - Start with `npx prisma migrate deploy && npm run start` (start command)
 
 **You don't need to manually set Root Directory** - the `railway.json` handles everything automatically.
 
